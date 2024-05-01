@@ -71,23 +71,23 @@ export default class SceneScenario3D extends Scene3D {
         this.camera.position.z = 100
 
         /** wall */
-        this.wallLeft = new Wall('blue')
-        // this.wallTop = new Wall('yellow')
-        this.wallRight = new Wall('blue')
-        // this.wallBottom = new Wall('yellow')
+        this.wallLeft = new Wall('white')
+        this.wallTop = new Wall('white')
+        this.wallRight = new Wall('white')
+        this.wallBottom = new Wall('white')
         this.add(this.wallLeft)
-        // this.add(this.wallTop)
+        this.add(this.wallTop)
         this.add(this.wallRight)
-        // this.add(this.wallBottom)
+        this.add(this.wallBottom)
 
-        this.wallLeft.depth = 100
-        // this.wallTop.depth = 100
-        this.wallRight.depth = 100
-        // this.wallBottom.depth = 100
+        this.wallLeft.depth = 20
+        this.wallTop.depth = 20
+        this.wallRight.depth = 20
+        this.wallBottom.depth = 20
 
         /** bubbles */
         this.bubbles = []
-        const radius_ = 20
+        const radius_ = 25
         const colors = ['red', 'blue', 'yellow']
         for (let i = 0; i < nBubbles; i++) {
             const bubble_ = new Bubble(radius_, colors[i % colors.length])
@@ -101,9 +101,9 @@ export default class SceneScenario3D extends Scene3D {
         /** physics engine */
         this.bodies = [
             this.wallLeft.body,
-            // this.wallTop.body,
-            this.wallRight.body
-            // this.wallBottom.body
+            this.wallTop.body,
+            this.wallRight.body,
+            this.wallBottom.body
         ]
         this.bubbles.forEach(b => this.bodies.push(b.body))
         this.engine = Engine.create({ render: { visible: false } })
@@ -122,20 +122,23 @@ export default class SceneScenario3D extends Scene3D {
     }
 
     addBubble(x, y) {
-        // to do
+        const colors = ['red', 'blue', 'yellow']
+        const newSquare = new Bubble(25, colors[randomRange(0, colors.length -1)])
 
-        // !! update Composite
+        this.bubbles.push(newSquare)
+        Composite.add(this.engine.world, newSquare)
+
+        this.update()
     }
 
     removeBubble(bubble) {
         bubble.geometry.dispose()
         bubble.material.dispose()
         bubble.removeFromParent()
+        Composite.remove(this.engine.world, bubble)
+        this.bubbles = this.bubbles.filter(bubble)
 
-        // remove from physics engine = update Composite
-
-        // remove from this.bubbles
-
+        this.update()
     }
 
     update() {
@@ -146,22 +149,22 @@ export default class SceneScenario3D extends Scene3D {
         }
     }
 
-    // onDeviceOrientation() {
-    //      /** gravity orientation */
-    //     let gx_ = this.orientation.gamma / 90 // -1 : 1
-    //     let gy_ = this.orientation.beta / 90 // -1 : 1
-    //     gx_ = clamp(gx_, -1, 1)
-    //     gy_ = clamp(gy_, -1, 1)
+    onDeviceOrientation() {
+         /** gravity orientation */
+        let gx_ = this.orientation.gamma / 90 // -1 : 1
+        let gy_ = this.orientation.beta / 90 // -1 : 1
+        gx_ = clamp(gx_, -1, 1)
+        gy_ = clamp(gy_, -1, 1)
 
-    //     /** debug */
-    //     let coordinates_ = ""
-    //     coordinates_ = coordinates_.concat(gx_.toFixed(2), ", ", gy_.toFixed(2))
-    //     this.debug.domDebug = coordinates_
+        /** debug */
+        let coordinates_ = ""
+        coordinates_ = coordinates_.concat(gx_.toFixed(2), ", ", gy_.toFixed(2))
+        this.debug.domDebug = coordinates_
 
-    //     /** update */
-    //     this.engine.gravity.x = gx_
-    //     this.engine.gravity.y = gy_
-    // }
+        /** update */
+        this.engine.gravity.x = gx_
+        this.engine.gravity.y = gy_
+    }
 
     onDeviceAcceleration() {
         /** debug */
@@ -187,20 +190,20 @@ export default class SceneScenario3D extends Scene3D {
         this.camera.top = this.height / 2
         this.camera.bottom = - this.height / 2
 
-        if (!!this.wallLeft) {
-            const thickness_ = 10
+        if (!!this.wallTop) {
+            const thickness_ = 20
 
             /** walls sizes */
             this.wallLeft.setSize(thickness_, this.height)
-            // this.wallTop.setSize(this.width - 2 * thickness_, thickness_)
+            this.wallTop.setSize(this.width - 2 * thickness_, thickness_)
             this.wallRight.setSize(thickness_, this.height)
-            // this.wallBottom.setSize(this.width - 2 * thickness_, thickness_)
+            this.wallBottom.setSize(this.width - 2 * thickness_, thickness_)
 
             /** walls position */
-            this.wallLeft.setPosition(-this.width / 2 + thickness_ / 2, 0)
-            // this.wallTop.setPosition(0, this.height / 2 - thickness_ / 2)
-            this.wallRight.setPosition(this.width / 2 - thickness_ / 2, 0)
-            // this.wallBottom.setPosition(0, -this.height / 2 + thickness_ / 2)
+            this.wallLeft.setPosition(-this.width / 2 - thickness_ / 2, 0)
+            this.wallTop.setPosition(this.height / 5, this.height / 5)
+            this.wallRight.setPosition(this.width / 2 + thickness_ / 2, 0)
+            this.wallBottom.setPosition(-this.height / 5, -this.height / 5)
         }
     }
 }

@@ -9,7 +9,7 @@ export default class SceneBouncingBubbles extends Scene2D {
 
         /** debug */
         this.params.threshold = 75
-        this.params.lineWidth = 10
+        this.params.lineWidth = 2
         this.params.speed = 1
         this.params.radius = 10
         this.params.nBubbles = nBubbles
@@ -39,7 +39,7 @@ export default class SceneBouncingBubbles extends Scene2D {
     generateBubbles() {
         this.bubbles = []
         for (let i = 0; i < this.params.nBubbles; i++) {
-            const radius_ = 20
+            const radius_ = 15
             const x_ = randomRange(radius_, this.width - radius_)
             const y__ = randomRange(radius_, this.height - radius_)
             const bubble_ = new Bubble(this.context, x_, y__, radius_)
@@ -50,14 +50,22 @@ export default class SceneBouncingBubbles extends Scene2D {
     }
 
     addBubble(x, y, vx = null, vy = null) {
-        // this.context = ok
-        // this.radius = ok
+        const newBubble = new Bubble(this.context, x, y, 15)
+        if(!!vx) newBubble.vx = vx
+        if(!!vy) newBubble.vy = vy
 
-        // push new Bubble(context,x,y, radius)
-        // if(!!vx) maNewBulle.vx = vx
-        // idem maNewBulle.vy = ...
+        this.bubbles.push(newBubble)
+        this.clear()
+        this.draw()
+    }
 
-        // push to this.bubbles
+    removeBubble(bubble) {
+        this.bubbles = this.bubbles.filter(function (toRemove) {
+            return toRemove !== bubble
+        })
+
+        this.clear()
+        this.draw()
     }
 
     update() {
@@ -84,7 +92,7 @@ export default class SceneBouncingBubbles extends Scene2D {
     draw() {
         /** style */
         this.context.strokeStyle = "white"
-        this.context.fillStyle = "peachpuff"
+        this.context.fillStyle = "black"
         this.context.lineCap = "round"
         this.context.lineWidth = this.params.lineWidth
 

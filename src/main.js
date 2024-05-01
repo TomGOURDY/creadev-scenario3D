@@ -15,7 +15,7 @@ btnReload.addEventListener("click", function () {
 }, false)
 
 /** scenarios */
-const scene1 = new SceneBouncingBubbles(20)
+const scene1 = new SceneBouncingBubbles(10)
 const scene2 = new SceneScenario3D("canvas-scene-3d")
 const scene3 = new SceneBouncingBubbles(10, "canvas-scene-2")
 
@@ -24,34 +24,25 @@ console.log(windowContext.scenes)
 const time = windowContext.time
 
 const update = () => {
-    /** example */
-    scene1.bubbles.forEach(b => {
-        if (b.y < scene1.height * 3/4) {
-            b.radius = 5
-        } else {
-            b.radius = 20
-        }
-    })
 
     /** 1 -> check des bulles dans les différents scénarios */
-    const outFromScene1 = scene1.bubbles.filter(b => { return b.y > scene1.width }) // remove bubbles
-    const outFromScene2 = scene2.bubbles.filter(b => { return b.x > scene1.width / 2 }) // remove bubbles
+    const outFromScene1 = scene1.bubbles.filter(b => { return b.x > scene1.width / 2 }) // remove bubbles
+    const outFromScene2 = scene2.bubbles.filter(b => { return b.x > scene2.width / 2 }) // remove bubbles
 
     /** 2 -> mise à jour des scénarios */
     outFromScene1.forEach(b => {
-        // 1 - remove from scene 1 = update scene1.bubbles
+        scene1.removeBubble(b)
 
-        // 2 - add to other scene => sceneX.addBubble
-        // b.vx
+        scene2.addBubble(b.x, b.y)
     })
     outFromScene2.forEach(b => {
-        // 1 - remove from scene 2 = removeBubble(b)
+        scene2.removeBubble(b)
 
-        // 2 - add to other scene => sceneX.addBubble
-        // b.vx
+        scene1.addBubble(b.x, b.y, b.vx, b.vy)
+        console.log("outFromScene2")
     })
 
-    console.log(outFromScene1)
+    
 }
 
 time.on('update', update)
