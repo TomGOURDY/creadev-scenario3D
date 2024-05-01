@@ -166,21 +166,21 @@ export default class SceneScenario3D extends Scene3D {
         this.engine.gravity.y = gy_
     }
 
-    onDeviceAcceleration() {
-        /** debug */
-        let coordinates_ = ""
-        coordinates_ = coordinates_.concat(
-            this.acceleration.x.toFixed(2), ", ",
-            this.acceleration.y.toFixed(2), ", ",
-            this.acceleration.z.toFixed(2)
-        )
-        this.debug.domDebug = coordinates_
+    // onDeviceAcceleration() {
+    //     /** debug */
+    //     let coordinates_ = ""
+    //     coordinates_ = coordinates_.concat(
+    //         this.acceleration.x.toFixed(2), ", ",
+    //         this.acceleration.y.toFixed(2), ", ",
+    //         this.acceleration.z.toFixed(2)
+    //     )
+    //     this.debug.domDebug = coordinates_
 
-        /** update */
-        this.engine.gravity.x = -this.acceleration.x / 9.81
-        this.engine.gravity.y = this.acceleration.y / 9.81
-        // this.engine.gravity.scale
-    }
+    //     /** update */
+    //     this.engine.gravity.x = -this.acceleration.x / 9.81
+    //     this.engine.gravity.y = this.acceleration.y / 9.81
+    //     // this.engine.gravity.scale
+    // }
 
     resize() {
         super.resize()
