@@ -27,7 +27,8 @@ const update = () => {
 
     /** 1 -> check des bulles dans les différents scénarios */
     const outFromScene1 = scene1.bubbles.filter(b => { return b.x > scene1.width / 2 }) // remove bubbles
-    const outFromScene2 = scene2.bubbles.filter(b => { return b.x > scene2.width / 2 }) // remove bubbles
+    const outFromScene2 = scene2.bubbles.filter(b => { return b.x > scene2.width / 2 })
+    const outFromScene3 = scene3.bubbles.filter(b => { return b.x > scene3.width / 2 }) // remove bubbles
 
     /** 2 -> mise à jour des scénarios */
     outFromScene1.forEach(b => {
@@ -40,6 +41,11 @@ const update = () => {
 
         scene1.addBubble(b.x, b.y, b.vx, b.vy)
         console.log("outFromScene2")
+    })
+    outFromScene3.forEach(b => {
+        scene3.removeBubble(b)
+
+        scene2.addBubble(b.x, b.y)
     })
 
     
