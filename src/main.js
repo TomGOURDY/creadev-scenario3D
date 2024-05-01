@@ -26,9 +26,9 @@ const time = windowContext.time
 const update = () => {
 
     /** 1 -> check des bulles dans les différents scénarios */
-    const outFromScene1 = scene1.bubbles.filter(b => { return b.x > scene1.width / 2 }) // remove bubbles
-    const outFromScene2 = scene2.bubbles.filter(b => { return b.x > scene2.width / 2 })
-    const outFromScene3 = scene3.bubbles.filter(b => { return b.x > scene3.width / 2 }) // remove bubbles
+    const outFromScene1 = scene1.bubbles.filter(b => { return b.y > scene1.height / 2 }) // remove bubbles
+    const outFromScene2 = scene2.bubbles.filter(b => { return b.y > scene2.height / 2 })
+    const outFromScene3 = scene3.bubbles.filter(b => { return b.y > scene3.height / 2 }) // remove bubbles
 
     /** 2 -> mise à jour des scénarios */
     outFromScene1.forEach(b => {
